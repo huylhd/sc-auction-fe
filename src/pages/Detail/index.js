@@ -10,6 +10,7 @@ const Detail = (props) => {
   const [item, setItem] = useState([]);
   const [showBidModal, setShowBidModal] = useState(false);
   const [bidAmount, setBidAmount] = useState(0);
+  const [isAutomated, setIsAutomated] = useState(false);
 
   useEffect(() => {
     GetItemDetail();
@@ -18,6 +19,7 @@ const Detail = (props) => {
   const GetItemDetail = async () => {
     const res = await RequestGet(`/products/${productId}`);
     if (res.success) {
+      setIsAutomated(res.data.myBid?.isAutomated | false);
       return setItem(res.data);
     }
     toast.error('Product not found');
@@ -28,6 +30,14 @@ const Detail = (props) => {
     const res = await RequestPost(`/bidding`, { productId, amount: parseFloat(bidAmount) });
     if (res.success) {
       return toast.success(`Placed bid successfully`);
+    }
+    toast.error(res.message);
+  }
+
+  const handleAutobidCbx = async (e) => {
+    const res = await RequestPost(`/bidding/autobid`, { productId });
+    if (res.success) {
+      setIsAutomated(!e.target.checked);
     }
     toast.error(res.message);
   }
@@ -60,7 +70,7 @@ const Detail = (props) => {
                 </div>
                 <button class="btn btn-primary ms-2" onClick={() => setShowBidModal(true)}>Place a Bid</button>
               </div>
-              <input class="form-check-input me-3" type="checkbox" value="" id="autoBidCbx" />
+              <input class="form-check-input me-3" type="checkbox" id="autoBidCbx" checked={isAutomated} onChange={e => handleAutobidCbx(e)} />
               <label class="form-check-label" for="autoBidCbx">
                 Activate the <span class="text-decoration-underline">auto-bidding</span>
               </label>
