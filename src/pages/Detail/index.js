@@ -4,21 +4,39 @@ import Countdown from 'react-countdown';
 import { useParams } from 'react-router';
 import { RequestGet, RequestPost } from '../../services/RequestService';
 import { toast } from 'react-toastify';
+import io from "socket.io-client";
+
+const socket = io.connect(process.env.REACT_APP_SERVER_BASE_URL);
 
 const Detail = (props) => {
   const { productId } = useParams();
   const [item, setItem] = useState([]);
   const [showBidModal, setShowBidModal] = useState(false);
   const [bidAmount, setBidAmount] = useState(0);
+  const [highestBid, setHighestBid] = useState(0);
   const [isAutomated, setIsAutomated] = useState(false);
 
   useEffect(() => {
     GetItemDetail();
+    GetSocket();
   }, [])
+
+  const GetSocket = () => {
+    const newHighestBid = (amount) => {
+      setHighestBid(amount);
+    }
+    socket.on("connect", () => {
+      socket.emit('join', productId); // Join product room
+      socket.emit('join', localStorage.getItem('token'));  // Join user room
+      socket.on('bid', newHighestBid);
+      socket.on('alert', perc => toast.warning(`You maximum bid amount has reached ${perc}%`))
+    });
+  }
 
   const GetItemDetail = async () => {
     const res = await RequestGet(`/products/${productId}`);
     if (res.success) {
+      setHighestBid(res.data.highestBid);
       setIsAutomated(res.data.myBid?.isAutomated | false);
       return setItem(res.data);
     }
@@ -62,7 +80,7 @@ const Detail = (props) => {
               <div class="row mb-3 timer">
                 <div class="col-6">
                   <h5>Latest bid</h5>
-                  <span>${ item.highestBid }</span>
+                  <span>${ highestBid }</span>
                 </div>
                 <div class="col-6 mb-4">
                   <h5>Available Until</h5>
