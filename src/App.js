@@ -13,19 +13,12 @@ import HomePage from './pages/HomePage';
 import Detail from './pages/Detail';
 import UserDropdown from './components/UserDropdown';
 import Setting from './pages/Setting';
+import Login from './pages/Login';
 
 function App() {
   return (
     <Router>
       <div class="pb-5">
-        <nav class="navbar justify-content-between px-md-5 px-3 mb-5">
-          <Link to="/"><img class="nav-logo" src="/logo.png" alt="logo" /></Link>
-          <span class="justify-content-center align-items-center">
-            <span class="me-2">Huy</span>
-            <UserDropdown />
-          </span>
-        </nav>
-
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
@@ -35,6 +28,10 @@ function App() {
 
           <Route path="/setting">
             <Setting />
+          </Route>
+
+          <Route path="/login">
+            <Login />
           </Route>
           
           <Route path="/">

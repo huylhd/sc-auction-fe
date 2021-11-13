@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { RequestGet, RequestPost } from '../../services/RequestService';
 import { toast } from 'react-toastify';
 import io from "socket.io-client";
+import Auth from '../../hoc/Auth';
 
 const socket = io.connect(process.env.REACT_APP_SERVER_BASE_URL);
 
@@ -119,4 +120,4 @@ const Detail = (props) => {
   )
 }
 
-export default Detail;
+export default Auth(Detail);

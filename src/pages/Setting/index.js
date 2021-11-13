@@ -3,6 +3,7 @@ import { RequestGet, RequestPost } from '../../services/RequestService';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import Auth from '../../hoc/Auth';
 
 const Setting = (props) => {
   const [setting, setSetting] = useState({
@@ -86,4 +87,4 @@ const Setting = (props) => {
   )
 }
 
-export default Setting;
+export default Auth(Setting);
