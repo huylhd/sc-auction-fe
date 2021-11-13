@@ -18,8 +18,9 @@ const Detail = (props) => {
   const GetItemDetail = async () => {
     const res = await RequestGet(`/products/${productId}`);
     if (res.success) {
-      setItem(res.data);
+      return setItem(res.data);
     }
+    toast.error('Product not found');
   }
 
   const handleBid = async () => {
@@ -51,7 +52,7 @@ const Detail = (props) => {
               <div class="row mb-3 timer">
                 <div class="col-6">
                   <h5>Latest bid</h5>
-                  <span>$15</span>
+                  <span>${ item.highestBid }</span>
                 </div>
                 <div class="col-6 mb-4">
                   <h5>Available Until</h5>
