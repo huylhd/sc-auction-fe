@@ -11,7 +11,7 @@ const socket = io.connect(process.env.REACT_APP_SERVER_BASE_URL);
 
 const Detail = (props) => {
   const { productId } = useParams();
-  const [item, setItem] = useState([]);
+  const [item, setItem] = useState(null);
   const [showBidModal, setShowBidModal] = useState(false);
   const [bidAmount, setBidAmount] = useState(0);
   const [highestBid, setHighestBid] = useState(0);
@@ -63,13 +63,13 @@ const Detail = (props) => {
 
   return (
     <div class="row m-0 detail-page px-md-5 px-3 align-items-center">
-      <div class="col-12 col-md-8 text-center p-5 image-wrapper">
-        {
-          item && (
+      {
+        item && (
+          <div class="col-12 col-md-8 text-center p-5 image-wrapper">
             <img src={ item.imageUrl ? process.env.REACT_APP_SERVER_BASE_URL + item.imageUrl : '/no-image.png' } alt="Product" />
-          )
-        }
-      </div>
+          </div>
+        )
+      }
       <div class="col-12 col-md-4 ps-md-4 right-section">
         {
           item && (
@@ -85,9 +85,13 @@ const Detail = (props) => {
                 </div>
                 <div class="col-6 mb-4">
                   <h5>Available Until</h5>
-                  <Countdown date={new Date(item.expiredAt)} />
+                  {
+                    item.timeLeft === 0 ?
+                    <span>Auction ended</span> : 
+                    <Countdown date={Date.now() + item.timeLeft} />
+                  }
                 </div>
-                <button class="btn btn-primary ms-2" onClick={() => setShowBidModal(true)}>Place a Bid</button>
+                <button disabled={item.timeLeft === 0} class="btn btn-primary ms-2" onClick={() => setShowBidModal(true)}>Place a Bid</button>
               </div>
               <input class="form-check-input me-3" type="checkbox" id="autoBidCbx" checked={isAutomated} onChange={e => handleAutobidCbx(e)} />
               <label class="form-check-label" for="autoBidCbx">
