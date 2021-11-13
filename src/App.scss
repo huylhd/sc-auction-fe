@@ -9,5 +9,15 @@
 
   .nav-avatar {
     width: 40px;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    display: inline-block;
+
+    .dropdown-menu {
+      right: 0;
+      left: auto;
+    }
   }
 }

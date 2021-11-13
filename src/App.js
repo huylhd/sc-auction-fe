@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import Detail from './pages/Detail';
+import UserDropdown from './components/UserDropdown';
+import Setting from './pages/Setting';
 
 function App() {
   return (
@@ -20,7 +22,7 @@ function App() {
           <Link to="/"><img class="nav-logo" src="/logo.png" alt="logo" /></Link>
           <span class="justify-content-center align-items-center">
             <span class="me-2">Huy</span>
-            <img class="nav-avatar" src="/user-avatar.png" alt="avatar" />
+            <UserDropdown />
           </span>
         </nav>
 
@@ -29,6 +31,10 @@ function App() {
         <Switch>
           <Route path="/detail/:productId">
             <Detail />
+          </Route>
+
+          <Route path="/setting">
+            <Setting />
           </Route>
           
           <Route path="/">
