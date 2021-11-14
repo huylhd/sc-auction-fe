@@ -1,21 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { RequestGet } from '../../../services/RequestService';
 
-const ItemList = (props) => {
-  const [items, setItems] = useState([]);
+const ItemList = ({items}) => {
   let history = useHistory();
-
-  useEffect(() => {
-    GetItems()
-  }, [])
-
-  const GetItems = async () => {
-    const res = await RequestGet('/products');
-    if (res.success) {
-      setItems(res.data);
-    }
-  }
 
   return (
     <>
