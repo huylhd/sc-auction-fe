@@ -14,7 +14,7 @@ const Login = () => {
       <h1 class="mb-5">Login</h1>
       <form onSubmit={handleSubmit}>
         <div class="row m-0">
-          <input type="text" value={username} onChange={e => setUsername(e.target.value)} class="form-control mb-3" placeholder="Enter username (user1/user2)" />
+          <input type="text" value={username} onChange={e => setUsername(e.target.value)} class="form-control mb-3" placeholder="Username (user1/user2/user3)" />
           <button type="submit" class="btn btn-primary col-12">Login</button>
         </div>
       </form>
