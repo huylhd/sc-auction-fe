@@ -37,7 +37,7 @@ const Detail = (props) => {
   const GetItemDetail = async () => {
     const res = await RequestGet(`/products/${productId}`);
     if (res.success) {
-      setHighestBid(res.data.highestBid);
+      setHighestBid(res.data.highestBid || 0);
       setIsAutomated(res.data.myBid?.isAutomated | false);
       return setItem(res.data);
     }
